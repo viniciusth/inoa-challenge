@@ -1,0 +1,31 @@
+version: "3.7"
+   
+services:
+  db:
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - /home/db/postgres_data:/var/lib/postgresql/data:z
+    ports:
+      - "5432:5432"
+  web:
+    build: .
+    command: bash start.sh
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DJANGO_KEY="1%+#a3ng3-u2vyyxjb7p$obc!t2ti#)nc-84)ogq8sj&+8j1h)"
+    links:
+      - db
+    depends_on:
+      - db
+

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block main %}
+	{% if not user.is_authenticated %}
+		<p> Please Login. </p>
+	{% else %}
+	  <h1>
+	  	You're logged in.
+	  </h1>
+	  <h2>
+	  	Your information:
+	  </h2>
+	  <ul>
+	  	<li>
+	  		Username: {{ user.username }}
+	  	</li>
+	  	<li>
+	  		Email: {{ user.email }}
+	  	</li>
+	  	<li>
+	  		Password (Hash): {{ user.password }}
+	  	</li>
+	  	<li>
+	  		User creation date: {{ user.date_joined }}
+	  	</li>
+	  </ul>
+	  <div class="user_funcs">
+			<a href="{% url 'edit_user'%}">Edit your profile</a>
+			<a href="{% url 'change_password'%}">Change your password</a>
+	  </div>
+	{% endif %}
+
+{% endblock %}

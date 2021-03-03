@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+  {% if form.errors %}
+    <p>Your username and/or password are invalid. Please try again.</p>
+  {% endif %}
+
+  <form method="post" action="{% url 'register' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input class = "button" type="submit" value="Register account" />
+    
+  </form>
+
+{% endblock %}
