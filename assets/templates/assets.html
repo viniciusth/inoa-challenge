@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+    {% if not user.is_authenticated %}
+		<p> Please Login. </p>
+    {% else %}
+        <h3>You currently are tracking the following assets</h3>
+        {% for asset in assets %}
+          <div class="tickers">
+            <a  href={% url 'some_asset' asset %}><span>{{asset.ticker}}</span></a>
+            <p>{{asset.price}} - {{asset.stop_loss_price}} - {{asset.stop_limit_price}}</p>
+          </div>
+        {% endfor %}
+        <div class="user_funcs">
+        <a href={% url 'asset_add' %}>Track new asset</a>
+        <a href={% url 'asset_remove' %}>Remove tracked asset</a>
+        </div>
+    {% endif %}
+{% endblock main %}

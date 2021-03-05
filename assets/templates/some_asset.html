@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+    {{ticker}}
+    <div style="width:1000px;height:600px">
+        {{graph|safe}}
+    </div>
+    {{period}}
+    <form method="post" action="{% url 'some_asset' ticker %}">
+        {% csrf_token %}
+        {{ form }}
+        <input class = "button" type="submit" value="Plot Graph" />
+    </form>
+    
+{% endblock main %}

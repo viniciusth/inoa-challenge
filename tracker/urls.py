@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from actives.views import *
+from assets.views import *
 
 
 urlpatterns = [
@@ -27,4 +27,9 @@ urlpatterns = [
     path('logout/', logout_view, name = 'logout'),
     path('edit_user/', edit_user_view, name = 'edit_user'),
     path('change_password/', change_password_view, name = 'change_password'),
+    path('profile/assets', assets_view, name = 'assets'),
+    path('profile/assets/add', asset_add_view, name ='asset_add'),
+    path('profile/assets/remove', asset_remove_view, name ='asset_remove'),
+    path('assets/', all_assets_view, name = 'all_assets'),
+    path('assets/<str:ticker>/', some_asset_view, name = 'some_asset'),
 ]

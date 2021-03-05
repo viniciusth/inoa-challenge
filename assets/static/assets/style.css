@@ -1,0 +1,95 @@
+.sidenav {
+    height: 100%;
+    width: 130px; 
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #101f14;
+    overflow-x: hidden; 
+    padding-top: 60px;
+    transition: 0.5s;
+    font-family: "Lucida Console", "Courier New", monospace;
+  }
+  
+.sidenav a {
+    padding: 8px 8px 8px 28px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #ca7e1a;
+    display: block;
+    transition: 0.3s;
+}
+  
+.sidenav a:hover {
+    color: #5dda0a;
+}
+
+.content {
+    height: 100%;
+    width: 100%; 
+    position: fixed;
+    z-index: 1; 
+    top: 0; 
+    left: 130px;
+    background-color: #75ff8c; 
+    overflow-x: hidden;
+    padding-left: 20px;
+    padding-top: 40px;
+    transition: 0.5s;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+.user_funcs a {
+    padding: 8px 8px 8px 8px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #1d04ac;
+    display: block;
+    transition: 0.3s;
+  }
+  
+.user_funcs a:hover {
+    color: #ff0101;
+}
+
+.button {
+    background-color: #ca7e1a;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.3s;
+    font-family: "Lucida Console", "Courier New", monospace;
+  }
+
+.button:hover{
+  background-color: #cf0303;
+}
+
+.tickers{
+  overflow-x: hidden;
+  padding: 8px 8px 8px 8px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #ee8422;
+  display: block;
+  transition: 0.3s;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.tickers a{
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  background-clip: text;
+  text-decoration: none;
+  color: #ee8422;
+  transition: 0.3s
+}
+
+.tickers a:hover{
+  color: #ff0000;
+}

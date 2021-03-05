@@ -12,20 +12,27 @@ services:
       - /home/db/postgres_data:/var/lib/postgresql/data:z
     ports:
       - "5432:5432"
+    networks: 
+      - main
   web:
     build: .
     command: bash start.sh
     volumes:
       - .:/code
+    expose:
+      - "8000"
     ports:
       - "8000:8000"
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - DJANGO_KEY="1%+#a3ng3-u2vyyxjb7p$obc!t2ti#)nc-84)ogq8sj&+8j1h)"
-    links:
-      - db
+    image: inoa-challenge_web:latest
+    networks:
+      - main
     depends_on:
       - db
 
+networks:
+  main:  
+  

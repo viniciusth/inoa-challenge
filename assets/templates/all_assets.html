@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+    <h1>List of all B3 assets</h1>
+    <div class="user_funcs">
+        {% for a in assets %}
+            <a href={% url 'some_asset' a %}>{{a}}</a>
+        {% endfor %}
+    </div>
+{% endblock main %}

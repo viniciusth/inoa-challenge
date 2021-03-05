@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+    {% if not user.is_authenticated %}
+		  <p> Please Login. </p>
+    {% else %}
+      <form method="post" action="{% url 'asset_add' %}">
+    	  {% csrf_token %}
+    	  {{form.as_ul}}
+      <input class = "button" type="submit" value="Track asset" />
+    {% endif %}
+{% endblock main %}
