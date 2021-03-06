@@ -4,16 +4,14 @@ services:
   db:
     image: postgres:12-alpine
     restart: always
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
     volumes:
       - /home/db/postgres_data:/var/lib/postgresql/data:z
     ports:
       - "5432:5432"
     networks: 
       - main
+    env_file:
+      - ./.env
   web:
     build: .
     command: bash start.sh
@@ -22,17 +20,14 @@ services:
     expose:
       - "8000"
     ports:
-      - "8000:8000"
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - "8000:8000"      
     image: inoa-challenge_web:latest
     networks:
       - main
     depends_on:
       - db
-
+    env_file:
+      - ./.env
 networks:
   main:  
   

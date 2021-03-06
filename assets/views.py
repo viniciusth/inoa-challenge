@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from .forms import UserCreationForm, EditUser, TrackAssetForm, RemoveTrackedAssetForm
+from .forms import UserCreationForm, EditUserForm, TrackAssetForm, RemoveTrackedAssetForm
 from .forms import GraphPeriodForm
 
 import pandas as pd
@@ -25,7 +25,7 @@ def register_view(request, *args, **kwargs):
   return render(request, "register.html", {'form' : form})
 
 def edit_user_view(request, *args, **kwargs):
-  form = EditUser(data=request.POST, instance = request.user)
+  form = EditUserForm(data=request.POST, instance = request.user)
   if form.is_valid():
     form.save()
     return redirect('profile')
@@ -103,7 +103,19 @@ def generate_graph(*args, **kwargs):
   fig.update_xaxes(title='Date / Time')
   fig.update_yaxes(title='Price')
   fig.update_layout(showlegend=False)
-  return opy.plot(fig, auto_open=False, output_type='div')
+  return (ticker, opy.plot(fig, auto_open=False, output_type='div'))
+
+
+def period_label(s):
+  if s.endswith('d'):
+    s = s[:-1] + (' day' if s[0] == '1' else ' days')
+  elif s.endswith('mo'):
+    s = s[:-2] + (' month' if s[0] == '1' else ' months')
+  elif s.endswith('y'):
+    s = s[:-1] + (' year' if s[0] == '1' else ' years')
+  else:
+    s = "All data"
+  return s
 
 def some_asset_view(request, *args, **kwargs):
   form = GraphPeriodForm(data = request.POST)
@@ -112,7 +124,8 @@ def some_asset_view(request, *args, **kwargs):
     kwargs['period'] = form.cleaned_data['period']
     if kwargs['period'] == "":
       kwargs['period'] = "1d"
-    
-    kwargs['graph'] = generate_graph(*args, **kwargs)
-    return render(request, "some_asset.html", kwargs)
+    (tckr, graph) = generate_graph(*args, **kwargs)
+    kwargs['graph'] = graph
+    kwargs['period'] = period_label(kwargs['period'])
+    kwargs['yf'] = tckr
   return render(request, "some_asset.html", kwargs)

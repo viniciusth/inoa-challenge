@@ -93,3 +93,10 @@
 .tickers a:hover{
   color: #ff0000;
 }
+
+.asset{
+  overflow-x: hidden;
+  padding-left: 20px;
+  transition: 0.3s;
+  font-family: "Lucida Console", "Courier New", monospace;
+}

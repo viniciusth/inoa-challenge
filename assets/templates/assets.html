@@ -8,8 +8,19 @@
         <h3>You currently are tracking the following assets</h3>
         {% for asset in assets %}
           <div class="tickers">
-            <a  href={% url 'some_asset' asset %}><span>{{asset.ticker}}</span></a>
-            <p>{{asset.price}} - {{asset.stop_loss_price}} - {{asset.stop_limit_price}}</p>
+            <a href={% url 'some_asset' asset %}><span>{{asset.ticker}}</span></a>
+          </div>
+          <div class="asset">
+            <p>Current asset price: {{asset.price}}</p>
+            <p>Asset stop loss price: {{asset.stop_loss_price}}</p>
+            <p>Asset stop limit price: {{asset.stop_limit_price}}</p>
+            {% if asset.price <= asset.stop_loss_price %}
+              <p>Your asset is currently below the stop loss price, sell it!</p>
+            {% elif asset.price >= asset.stop_limit_price %}
+              <p>Your asset is currently above the stop limit price, sell it!</p>
+            {% else %}
+              <p>Your asset is currently within its price limits.</p>
+            {% endif %}
           </div>
         {% endfor %}
         <div class="user_funcs">

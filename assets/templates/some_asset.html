@@ -2,15 +2,17 @@
 
 
 {% block main %}
-    {{ticker}}
-    <div style="width:1000px;height:600px">
+    <h2>{{ticker}} - Extra information</h2>
+    <div style="width:1000px;height:460px">
         {{graph|safe}}
     </div>
-    {{period}}
     <form method="post" action="{% url 'some_asset' ticker %}">
         {% csrf_token %}
         {{ form }}
+        <br><br>Current period is {{period}} <br><br>
         <input class = "button" type="submit" value="Plot Graph" />
     </form>
-    
+    {% if yf %}
+        
+    {% endif %}
 {% endblock main %}

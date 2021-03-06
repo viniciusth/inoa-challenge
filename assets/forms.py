@@ -12,8 +12,7 @@ class UserCreationForm(UserCreationForm):
   email = forms.EmailField(required=True, label='Email')
   class Meta:
     model = User
-    fields = ("username", "email", "password1", "password2")
-
+    fields = ["username", "email", "password1", "password2"]
   def save(self, commit=True):
     user = super(UserCreationForm, self).save(commit=False)
     user.email = self.cleaned_data["email"]
@@ -22,8 +21,7 @@ class UserCreationForm(UserCreationForm):
     return user
 
 
-class EditUser(forms.ModelForm):
-  #username = forms.CharField(required=True, widget=forms.TextInput(), label = 'Username')
+class EditUserForm(forms.ModelForm):
   email = forms.EmailField(required=True, widget=forms.EmailInput(), label='Email')
   first_name = forms.CharField(required=False, widget=forms.TextInput(), label = "First Name")
   last_name = forms.CharField(required=False, widget=forms.TextInput(), label = "Last Name")
@@ -32,7 +30,7 @@ class EditUser(forms.ModelForm):
     fields = [ "email", "first_name", "last_name"]
 
   def save(self, commit=True):
-    user = super(EditUser, self).save(commit=False)
+    user = super(EditUserForm, self).save(commit=False)
     if commit:
       user.save()
     return user
@@ -51,14 +49,13 @@ class TickerField(forms.CharField):
     super().__init__(*args, **kwargs)
 
   def validate(self, value):
-    try: 
-      ticker_exists(value)
-    except:
+    if not ticker_exists(value):
       raise ValidationError(
-      _("Ticker doesn't exist: %(ticker)s"),
-      code = 'inexistent_ticker',
-      params = {'ticker' : value},
+        _("Ticker doesn't exist: %(ticker)s"),
+        code = 'inexistent_ticker',
+        params = {'ticker' : value},
       )
+  
   def clean(self, value): # only tickers from B3
     value = super().to_python(value)
     if not value.endswith('.SA'):
@@ -74,13 +71,21 @@ class TrackAssetForm(forms.ModelForm):
   class Meta:
     model = Asset
     fields = ['ticker', 'stop_loss_price', 'stop_limit_price']
+  
+  def clean(self):
+    cleaned_data = super().clean()
+    if cleaned_data.get('ticker') != None and cleaned_data['ticker'] != '' and cleaned_data.get('stop_loss_price') > cleaned_data.get('stop_limit_price'):
+      raise  ValidationError("The stop loss price can't be bigger than the stop limit price.")  
+    return cleaned_data
+    
     
   def save(self, commit=True, *args, **kwargs):
+    self.cleaned_data = self.clean()
     asset = Asset(
-      ticker 			 = self.cleaned_data['ticker'],
-      stop_loss_price  = self.cleaned_data['stop_loss_price'],
+      ticker = self.cleaned_data['ticker'],
+      stop_loss_price = self.cleaned_data['stop_loss_price'],
       stop_limit_price = self.cleaned_data['stop_limit_price'],
-      user 		     = User.objects.get(id = kwargs['id'])
+      user = User.objects.get(id = kwargs['id'])
     )
     if commit:
       asset.save()
@@ -99,7 +104,6 @@ class RemoveTrackedAssetForm(forms.ModelForm):
 
   def delete(self, *args, **kwargs):
     self.cleaned_data['asset'].delete()
-    
     
 valid_periods = [
   ("1d" , "1 day"), 

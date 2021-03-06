@@ -7,7 +7,7 @@
     {% else %}
       <form method="post" action="{% url 'asset_add' %}">
     	  {% csrf_token %}
-    	  {{form.as_ul}}
+    	  {{form.as_p}}
       <input class = "button" type="submit" value="Track asset" />
     {% endif %}
 {% endblock main %}
