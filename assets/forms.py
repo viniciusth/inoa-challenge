@@ -66,16 +66,16 @@ class TickerField(forms.CharField):
 
 class TrackAssetForm(forms.ModelForm):
   ticker = TickerField(max_length = 6, required=True, label='Ticker Symbol')
-  stop_loss_price = forms.DecimalField(max_digits=20, decimal_places=4, label='Stop Loss Price', required=True)
-  stop_limit_price = forms.DecimalField(max_digits=20, decimal_places=4, label='Stop Limit Price', required=True)
+  lower_limit_price = forms.DecimalField(max_digits=20, decimal_places=4, label='Lower Limit Price', required=True)
+  upper_limit_price = forms.DecimalField(max_digits=20, decimal_places=4, label='Upper Limit Price', required=True)
   class Meta:
     model = Asset
-    fields = ['ticker', 'stop_loss_price', 'stop_limit_price']
+    fields = ['ticker', 'lower_limit_price', 'upper_limit_price']
   
   def clean(self):
     cleaned_data = super().clean()
-    if cleaned_data.get('ticker') != None and cleaned_data['ticker'] != '' and cleaned_data.get('stop_loss_price') > cleaned_data.get('stop_limit_price'):
-      raise  ValidationError("The stop loss price can't be bigger than the stop limit price.")  
+    if cleaned_data.get('ticker') != None and cleaned_data['ticker'] != '' and cleaned_data.get('lower_limit_price') > cleaned_data.get('upper_limit_price'):
+      raise  ValidationError("The lower limit price can't be bigger than the upper limit price.")  
     return cleaned_data
     
     
@@ -83,8 +83,8 @@ class TrackAssetForm(forms.ModelForm):
     self.cleaned_data = self.clean()
     asset = Asset(
       ticker = self.cleaned_data['ticker'],
-      stop_loss_price = self.cleaned_data['stop_loss_price'],
-      stop_limit_price = self.cleaned_data['stop_limit_price'],
+      lower_limit_price = self.cleaned_data['lower_limit_price'],
+      upper_limit_price = self.cleaned_data['upper_limit_price'],
       user = User.objects.get(id = kwargs['id'])
     )
     if commit:

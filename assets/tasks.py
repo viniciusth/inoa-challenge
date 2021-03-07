@@ -32,8 +32,8 @@ def update_asset_prices():
     df = pd.DataFrame(hist)
     df = df['Open']
     asset.price = df.iloc[-1]
-    if asset.price <= asset.stop_loss_price:
-      send_email(asset.user.email, "Sell the asset: {}, it is below your stop loss price!".format(asset.ticker))
-    if asset.price >= asset.stop_limit_price:
-      send_email(asset.user.email, "Sell the asset: {}, it is above your stop limit price!".format(asset.ticker))
+    if asset.price <= asset.lower_limit_price:
+      send_email(asset.user.email, "Buy the asset: {}, it is below your lower limit price!".format(asset.ticker))
+    if asset.price >= asset.upper_limit_price:
+      send_email(asset.user.email, "Sell the asset: {}, it is above your upper limit price!".format(asset.ticker))
     asset.save() 

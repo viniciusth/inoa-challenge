@@ -9,8 +9,8 @@ class Asset(models.Model):
     on_delete=models.CASCADE,
   )
   price = models.DecimalField(max_digits=20, decimal_places=4, null=True)
-  stop_loss_price = models.DecimalField(max_digits=20, decimal_places=4, null=True)
-  stop_limit_price = models.DecimalField(max_digits=20, decimal_places=4, null=True)
+  lower_limit_price = models.DecimalField(max_digits=20, decimal_places=4, null=True)
+  upper_limit_price = models.DecimalField(max_digits=20, decimal_places=4, null=True)
   def __str__(self):
     return '{0}'.format(self.ticker)
    

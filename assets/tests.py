@@ -141,7 +141,7 @@ class TestAssetAddView(TestCase):
     u.set_password('test')
     u.save()
     self.client.login(username='test',password='test')
-    resp = self.client.post('/profile/assets/add', {'ticker':'B3SA3', 'stop_loss_price':0.0, 'stop_limit_price':1.1}, follow=True)
+    resp = self.client.post('/profile/assets/add', {'ticker':'B3SA3', 'lower_limit_price':0.0, 'upper_limit_price':1.1}, follow=True)
     self.assertTemplateUsed(response=resp, template_name="base.html")
     self.assertTemplateUsed(response=resp, template_name="assets.html")
     self.assertRedirects(resp, '/profile/assets/')
@@ -166,7 +166,7 @@ class TestAssetRemoveView(TestCase):
     u = User.objects.create(username="test")
     u.set_password('test')
     u.save()
-    t = Asset.objects.create(ticker="B3SA3", user=u, stop_loss_price=0.0, stop_limit_price=1.1)
+    t = Asset.objects.create(ticker="B3SA3", user=u, lower_limit_price=0.0, upper_limit_price=1.1)
     t.save()
     self.client.login(username='test',password='test')
     resp = self.client.post('/profile/assets/remove', {'asset':t.id}, follow=True)
@@ -273,16 +273,16 @@ class TestTrackAssetForm(TestCase):
   def test_field_labels(self):
     form = TrackAssetForm()
     self.assertTrue(form.fields['ticker'].label == 'Ticker Symbol')
-    self.assertTrue(form.fields['stop_loss_price'].label == "Stop Loss Price")
-    self.assertTrue(form.fields['stop_limit_price'].label == "Stop Limit Price")
+    self.assertTrue(form.fields['lower_limit_price'].label == "Lower Limit Price")
+    self.assertTrue(form.fields['upper_limit_price'].label == "Upper Limit Price")
     
   def test_valid_asset(self):
     u = User.objects.create(username="testa")
     u.save()
     form = TrackAssetForm({
       'ticker': 'B3SA3',
-      'stop_loss_price': 0.0,
-      'stop_limit_price': 0.0,
+      'lower_limit_price': 0.0,
+      'upper_limit_price': 0.0,
       'user' : u
     })
     self.assertTrue(form.is_valid())
@@ -294,8 +294,8 @@ class TestTrackAssetForm(TestCase):
     u = User.objects.create(username="testa")
     form = TrackAssetForm({
       'ticker': 'B3SA3',
-      'stop_loss_price': 0.1,
-      'stop_limit_price': 0.0,
+      'lower_limit_price': 0.1,
+      'upper_limit_price': 0.0,
       'user' : u
     })
     self.assertFalse(form.is_valid())
@@ -308,8 +308,8 @@ class TestTrackAssetForm(TestCase):
     u = User.objects.create(username="test")
     form = TrackAssetForm({
       'ticker': 'TEST',
-      'stop_loss_price': 0.0,
-      'stop_limit_price': 0.0,
+      'lower_limit_price': 0.0,
+      'upper_limit_price': 0.0,
       'user' : u
     })
     self.assertFalse(form.is_valid())

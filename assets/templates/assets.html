@@ -12,12 +12,12 @@
           </div>
           <div class="asset">
             <p>Current asset price: {{asset.price}}</p>
-            <p>Asset stop loss price: {{asset.stop_loss_price}}</p>
-            <p>Asset stop limit price: {{asset.stop_limit_price}}</p>
-            {% if asset.price <= asset.stop_loss_price %}
-              <p><b>Your asset is currently below the stop loss price, sell it!</b></p>
-            {% elif asset.price >= asset.stop_limit_price %}
-              <p><b>Your asset is currently above the stop limit price, sell it!</b></p>
+            <p>Asset lower limit price: {{asset.lower_limit_price}}</p>
+            <p>Asset upper limit price: {{asset.upper_limit_price}}</p>
+            {% if asset.price <= asset.lower_limit_price %}
+              <p><b>Your asset is currently below your lower limit price, buy it!</b></p>
+            {% elif asset.price >= asset.upper_limit_price %}
+              <p><b>Your asset is currently above your upper limit price, sell it!</b></p>
             {% else %}
               <p>Your asset is currently within its price limits.</p>
             {% endif %}
