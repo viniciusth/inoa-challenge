@@ -3,7 +3,7 @@ function func(assets, input){
   var tickers = document.getElementById("tickers")
   var new_html = ""
   for(var i=0; i < assets.length; i++){
-    if(assets[i].length >= input.length && assets[i].startsWith(input)){
+    if(assets[i].match("[A-Z0-9]*" + input + "[A-Z0-9]*") != null){
       new_html += '<a href="/assets/"' + assets[i] + '/>' + assets[i] + "</a>";
       new_html += '\n\n';
     }
