@@ -15,9 +15,9 @@
             <p>Asset stop loss price: {{asset.stop_loss_price}}</p>
             <p>Asset stop limit price: {{asset.stop_limit_price}}</p>
             {% if asset.price <= asset.stop_loss_price %}
-              <p>Your asset is currently below the stop loss price, sell it!</p>
+              <p><b>Your asset is currently below the stop loss price, sell it!</b></p>
             {% elif asset.price >= asset.stop_limit_price %}
-              <p>Your asset is currently above the stop limit price, sell it!</p>
+              <p><b>Your asset is currently above the stop limit price, sell it!</b></p>
             {% else %}
               <p>Your asset is currently within its price limits.</p>
             {% endif %}

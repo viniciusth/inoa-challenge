@@ -17,11 +17,11 @@ def send_email(recipient, content):
   msg.set_content(content)
   print("Tried sending email to {}, content = {}".format(recipient, content))
   return # following works but i don't want spam
-  #with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-  #  smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-  #  smtp.send_message(msg)
+  with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+    smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+    smtp.send_message(msg)
 
-@task(schedule=60)
+@task(schedule=45) # runs the update every 45 seconds
 def update_asset_prices():
   print("Updating all asset prices!")
   qset = Asset.objects.all()

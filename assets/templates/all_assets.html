@@ -4,8 +4,13 @@
 {% block main %}
     <h1>List of all B3 assets</h1>
     <div class="user_funcs">
+    <p>Search for a specific B3 asset:
+    <input type="search" id="searchtext" oninput="func({{assets}}, document.getElementById('searchtext').value)">
+    </p>
+    <div id="tickers">
         {% for a in assets %}
             <a href={% url 'some_asset' a %}>{{a}}</a>
-        {% endfor %}
+        {% endfor %}   
+    </div>
     </div>
 {% endblock main %}
