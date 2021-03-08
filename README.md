@@ -19,8 +19,16 @@ source env/bin/activate
 pip3 install -r requirements.txt
 ```
 
-After installing, it is also needed to use the .env.example to create a new .env file with the data filled in.
-
+After installing, it is also needed to use the .env.example to create a new .env file with the data filled in:
+```bash
+POSTGRES_DB=postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+DJANGO_KEY=Your django secret key
+EMAIL_ADDRESS="example@gmail.com"
+EMAIL_PASSWORD=Your gmail password
+```
+If you have two factor authentication in your gmail account, use an [app password](https://support.google.com/accounts/answer/185833).
 ## Run
 
 To run the app, `docker` and `docker-compose` must be installed on your system. For installation
