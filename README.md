@@ -19,6 +19,8 @@ source env/bin/activate
 pip3 install -r requirements.txt
 ```
 
+After installing, it is also need to use the .env.example to create a new .env file with the data filled in.
+
 ## Run
 
 To run the app, `docker` and `docker-compose` must be installed on your system. For installation
